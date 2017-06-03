@@ -22,6 +22,7 @@ module BrowserifyRails
 
     def call(input)
       self.file = input[:filename]
+      puts "BROWSERIFY CHECK #{self.file}"
       return input[:data] unless in_path?
       self.data = input[:data]
 
@@ -49,7 +50,9 @@ module BrowserifyRails
         dependencies << "file-digest://#{Addressable::URI.escape resolved}" if resolved
       end
 
+      puts "BROWSERIFY RUN #{self.file}"
       new_data = run_browserify(input[:name])
+      puts "BROWSERIFY FINISH #{self.file}"
       { data: new_data, dependencies: dependencies }
     end
 
